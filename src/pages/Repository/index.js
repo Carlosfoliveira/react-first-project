@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 import Container from '../../components/Container';
-import { Owner, Loading } from './styles';
+import { Owner, Loading, IssueList } from './styles';
 
 const Repository = ({ match }) => {
   const [repository, setRepository] = useState({});
@@ -28,9 +28,6 @@ const Repository = ({ match }) => {
       setRepository(repositoryFromApi.data);
       setIssues(issuesFromApi.data);
       setLoading(false);
-
-      console.log(repositoryFromApi);
-      console.log(issuesFromApi);
     }
     fetchData();
   }, []);
@@ -47,6 +44,23 @@ const Repository = ({ match }) => {
         <h1>{repository.name}</h1>
         <p>{repository.description}</p>
       </Owner>
+
+      <IssueList>
+        {issues.map((issue) => (
+          <li key={String(issue.id)}>
+            <img src={issue.user.avatar_url} alt={issue.user.login} />
+            <div>
+              <strong>
+                <a href={issue.html_url}>{issue.title}</a>
+                {issue.labels.map((label) => (
+                  <span key={String(label.id)}>{label.name}</span>
+                ))}
+              </strong>
+              <p>{issue.user.login}</p>
+            </div>
+          </li>
+        ))}
+      </IssueList>
     </Container>
   );
 };
