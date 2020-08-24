@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import api from '../../services/api';
 
 // import { Container } from './styles';
@@ -37,6 +38,14 @@ const Repository = ({ match }) => {
       Repository
     </h1>
   );
+};
+
+Repository.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      repository: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default Repository;
